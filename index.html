@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Friendz Auto Dealer Management</title>
+<title>AutoDesk Pro — Dealer Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -16,14 +16,12 @@
   --blue:#3B82F6;--blue-d:rgba(59,130,246,.12);
   --purple:#8B5CF6;--purple-d:rgba(139,92,246,.12);
   --text:#E8EDF2;--text2:#8A9BB0;--text3:#3D4F62;
-  --fh:'Barlow Condensed',sans-serif;
-  --fb:'Barlow',sans-serif;
-  --fm:'IBM Plex Mono',monospace;
+  --fh:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;--fm:'IBM Plex Mono',monospace;
 }
 html,body{height:100%}
 body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px;line-height:1.4}
 
-/* LOADING SCREEN */
+/* LOADING */
 #loading-screen{position:fixed;inset:0;background:var(--bg);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
 .loading-logo{font-family:var(--fh);font-size:32px;font-weight:800;letter-spacing:3px;color:var(--text)}
 .loading-logo span{color:var(--amber)}
@@ -93,7 +91,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
 
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;overflow-y:auto;padding:16px}
 .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
-.modal{background:var(--surface);border:1px solid var(--border2);width:100%;max-width:880px;margin:auto}
+.modal{background:var(--surface);border:1px solid var(--border2);width:100%;max-width:900px;margin:auto}
 .mh{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .mh-title{font-family:var(--fh);font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
 .mclose{background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;padding:0 6px;line-height:1}
@@ -110,7 +108,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
 .fc{background:var(--bg);border:1px solid var(--border2);color:var(--text);padding:8px 11px;font-family:var(--fb);font-size:13px;outline:none;transition:border .14s;width:100%}
 .fc:focus{border-color:var(--amber)}
 .fc::placeholder{color:var(--text3)}
-textarea.fc{resize:vertical;min-height:65px}
+textarea.fc{resize:vertical;min-height:80px}
 select.fc{cursor:pointer;-webkit-appearance:none}
 option{background:#0F1419}
 
@@ -135,7 +133,6 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
 .empty-text{font-size:13px}
 
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
-.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:20px}
 
 .rpt-block{background:var(--surface);border:1px solid var(--border);margin-bottom:18px}
 .rpt-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
@@ -156,35 +153,31 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
 .vd-k{color:var(--text2)}.vd-v{font-family:var(--fm);font-size:11px}
 
 .toast{position:fixed;bottom:20px;right:20px;background:var(--surface2);border:1px solid var(--border2);border-left:3px solid var(--green);padding:12px 18px;font-size:13px;z-index:9999;animation:fadeIn .2s;pointer-events:none}
-.toast.err{border-left-color:var(--red)}
-.toast.info{border-left-color:var(--blue)}
+.toast.err{border-left-color:var(--red)}.toast.info{border-left-color:var(--blue)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .confirm-modal{max-width:420px}
 
-@media print{
-  body > *:not(#invoice-wrap){display:none!important}
-  #invoice-wrap{display:block!important;position:static!important;background:#fff!important;color:#000!important}
-}
+/* Notes box styling */
+.notes-box{background:var(--bg);border:1px solid var(--border2);border-left:3px solid var(--amber);padding:12px 14px;font-size:13px;color:var(--text2);font-style:italic;margin-top:10px;line-height:1.6}
+
 #invoice-wrap{display:none}
 
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border2)}
 
-@media(max-width:1100px){.kpi-grid{grid-template-columns:1fr 1fr}.fg4{grid-template-columns:1fr 1fr}.two-col,.three-col{grid-template-columns:1fr}.vd-grid{grid-template-columns:1fr}}
+@media(max-width:1100px){.kpi-grid{grid-template-columns:1fr 1fr}.fg4{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}.vd-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
 <div id="loading-screen">
   <div class="loading-logo">AUTO<span>DESK</span> PRO</div>
   <div class="loading-bar"><div class="loading-bar-inner"></div></div>
   <div class="loading-txt" id="loading-txt">Connecting to database...</div>
 </div>
 
-<!-- SIDEBAR -->
 <div id="sidebar" style="display:none">
   <div class="logo">
     <div class="logo-icon">🔧</div>
@@ -205,12 +198,11 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
     <div class="nav-item" id="nav-buyers" onclick="navigate('buyers')"><span class="ni">👥</span> Buyers</div>
   </nav>
   <div class="sidebar-footer">
-    <div>AUTODESK PRO v2.0</div>
+    <div>AUTODESK PRO v2.1</div>
     <div class="db-status"><div class="db-dot" id="db-dot"></div><span id="db-status-txt">Supabase Connected</span></div>
   </div>
 </div>
 
-<!-- MAIN -->
 <div id="main" style="display:none">
   <div class="topbar">
     <div class="page-title" id="page-title">Dashboard</div>
@@ -227,12 +219,14 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
       <button class="mclose" onclick="closeModal('vmodal')">✕</button>
     </div>
     <div class="mb" id="vmodal-body">
+
+      <!-- PURCHASE INFO -->
       <div class="fs">
         <div class="fs-title">Purchase Information</div>
         <div class="fg fg4">
           <div class="fgrp"><label class="flbl req">Stock No</label><input class="fc" id="v_stockNo" placeholder="e.g. A-001"></div>
           <div class="fgrp"><label class="flbl">VIN</label><input class="fc" id="v_vin" placeholder="17-char VIN"></div>
-          <div class="fgrp"><label class="flbl req">Year</label><input class="fc" id="v_year" type="number" placeholder="2020" min="1980" max="2030"></div>
+          <div class="fgrp"><label class="flbl req">Year</label><input class="fc" id="v_year" type="number" placeholder="2020" min="1980" max="2035"></div>
           <div class="fgrp"><label class="flbl req">Make</label><input class="fc" id="v_make" placeholder="Toyota"></div>
         </div>
         <div class="fg fg4" style="margin-top:12px">
@@ -248,12 +242,15 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
           <div class="fgrp"><label class="flbl req">Purchase Price ($)</label><input class="fc" id="v_purchasePrice" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
         </div>
       </div>
+
+      <!-- COSTS & FEES — now includes Inspection -->
       <div class="fs">
         <div class="fs-title">Costs &amp; Fees</div>
-        <div class="fg fg3">
+        <div class="fg fg4">
           <div class="fgrp"><label class="flbl">Tax on Purchase ($)</label><input class="fc" id="v_taxPaid" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
           <div class="fgrp"><label class="flbl">Auction Fees ($)</label><input class="fc" id="v_fees" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
           <div class="fgrp"><label class="flbl">Transport ($)</label><input class="fc" id="v_transport" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
+          <div class="fgrp"><label class="flbl">Inspection ($)</label><input class="fc" id="v_inspection" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
           <div class="fgrp"><label class="flbl">Repair Cost ($)</label><input class="fc" id="v_repairCost" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
           <div class="fgrp"><label class="flbl">Parts ($)</label><input class="fc" id="v_parts" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
           <div class="fgrp"><label class="flbl">Other Cost ($)</label><input class="fc" id="v_otherCost" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()"></div>
@@ -267,6 +264,8 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
           <span class="calc-val cv-amber" id="calc_breakeven">$0.00</span>
         </div>
       </div>
+
+      <!-- STATUS -->
       <div class="fs">
         <div class="fs-title">Status</div>
         <div class="fg fg3">
@@ -289,9 +288,11 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
               <option>Other</option>
             </select>
           </div>
-          <div class="fgrp"><label class="flbl">Internal Notes</label><input class="fc" id="v_intNotes" placeholder="Location, condition, etc."></div>
+          <div class="fgrp"><label class="flbl">Internal Location / Condition</label><input class="fc" id="v_intNotes" placeholder="e.g. Lot B, needs detailing"></div>
         </div>
       </div>
+
+      <!-- SALE INFO -->
       <div class="fs" id="sale-fields">
         <div class="fs-title">Sale Information</div>
         <div class="fg fg4">
@@ -305,7 +306,9 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
           <span class="calc-val" id="calc_profit">—</span>
         </div>
       </div>
-      <div class="fs">
+
+      <!-- BUYER -->
+      <div class="fs" id="buyer-fields">
         <div class="fs-title">Buyer Information</div>
         <div class="fg fg3">
           <div class="fgrp"><label class="flbl">Buyer Name</label><input class="fc" id="v_buyerName" placeholder="Full name"></div>
@@ -313,6 +316,16 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
           <div class="fgrp"><label class="flbl">Email</label><input class="fc" id="v_buyerEmail" placeholder="buyer@email.com"></div>
         </div>
       </div>
+
+      <!-- NOTES — new section -->
+      <div class="fs">
+        <div class="fs-title">Vehicle Notes</div>
+        <div class="fgrp">
+          <label class="flbl">Notes</label>
+          <textarea class="fc" id="v_notes" placeholder="Any additional notes about this vehicle — condition details, history, issues, reminders, etc." style="min-height:100px"></textarea>
+        </div>
+      </div>
+
     </div>
     <div class="mf" id="vmodal-footer">
       <button class="btn btn-ghost" onclick="closeModal('vmodal')">Cancel</button>
@@ -366,32 +379,27 @@ select.si{background:var(--bg);border:1px solid var(--border2);color:var(--text2
 <div id="invoice-wrap"></div>
 
 <script>
-// ─── SUPABASE CONFIG ────────────────────────────────────────────
+// ─── SUPABASE ────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://becbeafminlbzvsawgpq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable__bkqiz0f1jsplq4VSiVUTA_sodcbFgp';
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ─── STATE ──────────────────────────────────────────────────────
-let vehicles = [];
-let expenses = [];
+// ─── STATE ───────────────────────────────────────────────────────
+let vehicles = [], expenses = [];
 let currentView = 'dashboard';
-let vehicleFilterStatus = 'all';
-let vehicleSearch = '';
-let editingVehicleId = null;
-let editingExpenseId = null;
-let reportMonth = new Date().getMonth();
-let reportYear = new Date().getFullYear();
-let dbConnected = false;
+let vehicleFilterStatus = 'all', vehicleSearch = '';
+let editingVehicleId = null, editingExpenseId = null;
+let reportMonth = new Date().getMonth(), reportYear = new Date().getFullYear();
 
-// ─── UTILS ──────────────────────────────────────────────────────
+// ─── UTILS ───────────────────────────────────────────────────────
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2);
 const fmt = n => '$' + parseFloat(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmtDate = d => d ? new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
 const daysSince = d => d ? Math.floor((Date.now()-new Date(d+'T00:00:00').getTime())/86400000) : 0;
 
+// NOTE: inspection is now included in totalCost
 function totalCost(v) {
-  return ['purchasePrice','taxPaid','fees','transport','repairCost','parts','otherCost']
+  return ['purchasePrice','taxPaid','fees','transport','inspection','repairCost','parts','otherCost']
     .reduce((s,k) => s + parseFloat(v[k]||0), 0);
 }
 function profit(v) { return parseFloat(v.salePrice||0) - totalCost(v); }
@@ -399,7 +407,7 @@ function profit(v) { return parseFloat(v.salePrice||0) - totalCost(v); }
 function toast(msg, type='ok') {
   document.querySelectorAll('.toast').forEach(t=>t.remove());
   const t = document.createElement('div');
-  t.className = 'toast' + (type==='err'?' err':type==='info'?' info':'');
+  t.className = 'toast'+(type==='err'?' err':type==='info'?' info':'');
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(()=>t.remove(), 3000);
@@ -411,148 +419,95 @@ function confirmAction(msg, cb) {
   openModal('cmodal');
 }
 
-// ─── MAP DB ROW → APP OBJECT ────────────────────────────────────
+// ─── ROW MAPPERS ─────────────────────────────────────────────────
 function rowToVehicle(r) {
   return {
-    id: r.id,
-    stockNo: r.stock_no||'',
-    vin: r.vin||'',
-    year: r.year||'',
-    make: r.make||'',
-    model: r.model||'',
-    title: r.title||'Clean',
-    purchaseDate: r.purchase_date||'',
-    purchasePrice: r.purchase_price||0,
-    taxPaid: r.tax_paid||0,
-    fees: r.fees||0,
-    transport: r.transport||0,
-    repairCost: r.repair_cost||0,
-    parts: r.parts||0,
-    otherCost: r.other_cost||0,
-    status: r.status||'Inventory',
-    exportCountry: r.export_country||'',
-    saleDate: r.sale_date||'',
-    salePrice: r.sale_price||0,
-    taxCollected: r.tax_collected||0,
-    saleNotes: r.sale_notes||'',
-    intNotes: r.int_notes||'',
-    buyerName: r.buyer_name||'',
-    buyerPhone: r.buyer_phone||'',
-    buyerEmail: r.buyer_email||'',
-    createdAt: r.created_at||Date.now()
+    id:r.id, stockNo:r.stock_no||'', vin:r.vin||'',
+    year:r.year||'', make:r.make||'', model:r.model||'', title:r.title||'Clean',
+    purchaseDate:r.purchase_date||'', purchasePrice:r.purchase_price||0,
+    taxPaid:r.tax_paid||0, fees:r.fees||0, transport:r.transport||0,
+    inspection:r.inspection||0,          // ← NEW
+    repairCost:r.repair_cost||0, parts:r.parts||0, otherCost:r.other_cost||0,
+    status:r.status||'Inventory', exportCountry:r.export_country||'',
+    saleDate:r.sale_date||'', salePrice:r.sale_price||0,
+    taxCollected:r.tax_collected||0, saleNotes:r.sale_notes||'',
+    intNotes:r.int_notes||'',
+    notes:r.notes||'',                   // ← NEW
+    buyerName:r.buyer_name||'', buyerPhone:r.buyer_phone||'', buyerEmail:r.buyer_email||'',
+    createdAt:r.created_at||Date.now()
   };
 }
 
 function vehicleToRow(v) {
   return {
-    id: v.id,
-    stock_no: v.stockNo,
-    vin: v.vin,
-    year: v.year,
-    make: v.make,
-    model: v.model,
-    title: v.title,
-    purchase_date: v.purchaseDate||null,
-    purchase_price: parseFloat(v.purchasePrice)||0,
-    tax_paid: parseFloat(v.taxPaid)||0,
-    fees: parseFloat(v.fees)||0,
-    transport: parseFloat(v.transport)||0,
-    repair_cost: parseFloat(v.repairCost)||0,
-    parts: parseFloat(v.parts)||0,
-    other_cost: parseFloat(v.otherCost)||0,
-    status: v.status,
-    export_country: v.exportCountry||null,
-    sale_date: v.saleDate||null,
-    sale_price: parseFloat(v.salePrice)||0,
-    tax_collected: parseFloat(v.taxCollected)||0,
-    sale_notes: v.saleNotes||null,
-    int_notes: v.intNotes||null,
-    buyer_name: v.buyerName||null,
-    buyer_phone: v.buyerPhone||null,
-    buyer_email: v.buyerEmail||null,
-    created_at: v.createdAt||Date.now()
+    id:v.id, stock_no:v.stockNo, vin:v.vin, year:v.year, make:v.make, model:v.model,
+    title:v.title, purchase_date:v.purchaseDate||null,
+    purchase_price:parseFloat(v.purchasePrice)||0,
+    tax_paid:parseFloat(v.taxPaid)||0, fees:parseFloat(v.fees)||0,
+    transport:parseFloat(v.transport)||0,
+    inspection:parseFloat(v.inspection)||0,   // ← NEW
+    repair_cost:parseFloat(v.repairCost)||0, parts:parseFloat(v.parts)||0,
+    other_cost:parseFloat(v.otherCost)||0,
+    status:v.status, export_country:v.exportCountry||null,
+    sale_date:v.saleDate||null, sale_price:parseFloat(v.salePrice)||0,
+    tax_collected:parseFloat(v.taxCollected)||0, sale_notes:v.saleNotes||null,
+    int_notes:v.intNotes||null,
+    notes:v.notes||null,                      // ← NEW
+    buyer_name:v.buyerName||null, buyer_phone:v.buyerPhone||null,
+    buyer_email:v.buyerEmail||null, created_at:v.createdAt||Date.now()
   };
 }
 
 function rowToExpense(r) {
-  return {
-    id: r.id,
-    date: r.date||'',
-    amount: r.amount||0,
-    category: r.category||'',
-    desc: r.description||'',
-    notes: r.notes||'',
-    createdAt: r.created_at||Date.now()
-  };
+  return { id:r.id, date:r.date||'', amount:r.amount||0, category:r.category||'',
+    desc:r.description||'', notes:r.notes||'', createdAt:r.created_at||Date.now() };
 }
-
 function expenseToRow(e) {
-  return {
-    id: e.id,
-    date: e.date||null,
-    amount: parseFloat(e.amount)||0,
-    category: e.category,
-    description: e.desc,
-    notes: e.notes||null,
-    created_at: e.createdAt||Date.now()
-  };
+  return { id:e.id, date:e.date||null, amount:parseFloat(e.amount)||0,
+    category:e.category, description:e.desc, notes:e.notes||null,
+    created_at:e.createdAt||Date.now() };
 }
 
-// ─── SUPABASE DATA OPERATIONS ───────────────────────────────────
+// ─── DB OPS ──────────────────────────────────────────────────────
 async function loadAll() {
   try {
     document.getElementById('loading-txt').textContent = 'Loading vehicles...';
-    const { data: vData, error: vErr } = await db.from('vehicles').select('*').order('created_at', { ascending: false });
-    if (vErr) throw vErr;
-    vehicles = (vData||[]).map(rowToVehicle);
+    const { data:vd, error:ve } = await db.from('vehicles').select('*').order('created_at',{ascending:false});
+    if (ve) throw ve;
+    vehicles = (vd||[]).map(rowToVehicle);
 
     document.getElementById('loading-txt').textContent = 'Loading expenses...';
-    const { data: eData, error: eErr } = await db.from('expenses').select('*').order('created_at', { ascending: false });
-    if (eErr) throw eErr;
-    expenses = (eData||[]).map(rowToExpense);
-
-    dbConnected = true;
+    const { data:ed, error:ee } = await db.from('expenses').select('*').order('created_at',{ascending:false});
+    if (ee) throw ee;
+    expenses = (ed||[]).map(rowToExpense);
     return true;
-  } catch(err) {
-    console.error('Load error:', err);
-    dbConnected = false;
-    return false;
-  }
+  } catch(err) { console.error(err); return false; }
 }
 
 async function saveVehicleToDB(v, isNew) {
   const row = vehicleToRow(v);
-  if (isNew) {
-    const { error } = await db.from('vehicles').insert(row);
-    if (error) throw error;
-  } else {
-    const { error } = await db.from('vehicles').update(row).eq('id', v.id);
-    if (error) throw error;
-  }
+  const { error } = isNew
+    ? await db.from('vehicles').insert(row)
+    : await db.from('vehicles').update(row).eq('id', v.id);
+  if (error) throw error;
 }
-
 async function deleteVehicleFromDB(id) {
   const { error } = await db.from('vehicles').delete().eq('id', id);
   if (error) throw error;
 }
-
 async function saveExpenseToDB(e, isNew) {
   const row = expenseToRow(e);
-  if (isNew) {
-    const { error } = await db.from('expenses').insert(row);
-    if (error) throw error;
-  } else {
-    const { error } = await db.from('expenses').update(row).eq('id', e.id);
-    if (error) throw error;
-  }
+  const { error } = isNew
+    ? await db.from('expenses').insert(row)
+    : await db.from('expenses').update(row).eq('id', e.id);
+  if (error) throw error;
 }
-
 async function deleteExpenseFromDB(id) {
   const { error } = await db.from('expenses').delete().eq('id', id);
   if (error) throw error;
 }
 
-// ─── NAV ────────────────────────────────────────────────────────
+// ─── NAV ─────────────────────────────────────────────────────────
 function navigate(view) {
   currentView = view;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -566,20 +521,16 @@ function render() {
   document.getElementById('page-title').textContent = titles[currentView]||'';
   const ta = document.getElementById('topbar-right');
   ta.innerHTML = '';
-  if (currentView==='vehicles') {
-    ta.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openVehicleModal()">＋ Add Vehicle</button>`;
-  } else if (currentView==='expenses') {
-    ta.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openExpenseModal()">＋ Add Expense</button>`;
-  } else if (currentView==='reports') {
-    ta.innerHTML = `
-      <select class="si" onchange="reportMonth=+this.value;renderContent()" id="rpt-month">
-        ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m,i)=>`<option value="${i}" ${i===reportMonth?'selected':''}>${m}</option>`).join('')}
-      </select>
-      <select class="si" onchange="reportYear=+this.value;renderContent()" id="rpt-year">
-        ${[2023,2024,2025,2026,2027].map(y=>`<option value="${y}" ${y===reportYear?'selected':''}>${y}</option>`).join('')}
-      </select>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Export CSV</button>`;
-  }
+  if (currentView==='vehicles') ta.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openVehicleModal()">＋ Add Vehicle</button>`;
+  else if (currentView==='expenses') ta.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openExpenseModal()">＋ Add Expense</button>`;
+  else if (currentView==='reports') ta.innerHTML = `
+    <select class="si" onchange="reportMonth=+this.value;renderContent()">
+      ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m,i)=>`<option value="${i}" ${i===reportMonth?'selected':''}>${m}</option>`).join('')}
+    </select>
+    <select class="si" onchange="reportYear=+this.value;renderContent()">
+      ${[2023,2024,2025,2026,2027].map(y=>`<option value="${y}" ${y===reportYear?'selected':''}>${y}</option>`).join('')}
+    </select>
+    <button class="btn btn-ghost btn-sm" onclick="exportCSV()">⬇ Export CSV</button>`;
   renderContent();
 }
 
@@ -592,16 +543,16 @@ function renderContent() {
   else if (currentView==='buyers') el.innerHTML = buyersHTML();
 }
 
-// ─── DASHBOARD ──────────────────────────────────────────────────
+// ─── DASHBOARD ───────────────────────────────────────────────────
 function dashboardHTML() {
   const inv = vehicles.filter(v=>v.status==='Inventory');
   const sold = vehicles.filter(v=>v.status==='Sold'||v.status==='Exported');
   const totalInvested = inv.reduce((s,v)=>s+totalCost(v),0);
   const totalProfit = sold.reduce((s,v)=>s+profit(v),0);
-  const thisMonth = new Date().getMonth(), thisYear = new Date().getFullYear();
-  const soldThisMonth = sold.filter(v=>v.saleDate&&new Date(v.saleDate+'T00:00:00').getMonth()===thisMonth&&new Date(v.saleDate+'T00:00:00').getFullYear()===thisYear);
-  const monthExpenses = expenses.filter(e=>e.date&&new Date(e.date+'T00:00:00').getMonth()===thisMonth&&new Date(e.date+'T00:00:00').getFullYear()===thisYear);
-  const totalMonthExp = monthExpenses.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+  const tm = new Date().getMonth(), ty = new Date().getFullYear();
+  const soldThisMonth = sold.filter(v=>v.saleDate&&new Date(v.saleDate+'T00:00:00').getMonth()===tm&&new Date(v.saleDate+'T00:00:00').getFullYear()===ty);
+  const monthExp = expenses.filter(e=>e.date&&new Date(e.date+'T00:00:00').getMonth()===tm&&new Date(e.date+'T00:00:00').getFullYear()===ty);
+  const totalMonthExp = monthExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
   const aged = inv.filter(v=>v.purchaseDate&&daysSince(v.purchaseDate)>60);
   const recent = [...vehicles].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,6);
 
@@ -619,11 +570,10 @@ function dashboardHTML() {
       <table><thead><tr><th>Stock #</th><th>Vehicle</th><th>Status</th><th>Total Cost</th><th>Profit</th></tr></thead><tbody>
       ${recent.map(v=>{const tc=totalCost(v),pr=profit(v),days=v.purchaseDate?daysSince(v.purchaseDate):0;return`<tr style="cursor:pointer" onclick="viewVehicle('${v.id}')">
         <td class="mono">${v.stockNo||'—'}</td>
-        <td><b>${v.year||''} ${v.make||''} ${v.model||''}</b>${days>60&&v.status==='Inventory'?`<span class="aged">⚠ ${days}d</span>`:''}</td>
+        <td><b>${v.year} ${v.make} ${v.model}</b>${days>60&&v.status==='Inventory'?`<span class="aged">⚠ ${days}d</span>`:''}</td>
         <td>${statusBadge(v)}</td><td class="mono">${fmt(tc)}</td>
         <td class="${v.status==='Inventory'?'muted':pr>=0?'pos':'neg'}">${v.status==='Inventory'?'—':fmt(pr)}</td>
-      </tr>`;}).join('')}
-      </tbody></table>`}
+      </tr>`;}).join('')}</tbody></table>`}
     </div>
     <div class="tw">
       <div class="th"><div class="th-title">This Month</div></div>
@@ -636,16 +586,16 @@ function dashboardHTML() {
         </div>
         <div>
           <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px">RECENT EXPENSES</div>
-          ${monthExpenses.length===0?`<div style="color:var(--text3);font-size:13px">No expenses this month</div>`:`
-          ${monthExpenses.slice(0,4).map(e=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text2)">${e.category}</span><span class="mono neg">${fmt(e.amount)}</span></div>`).join('')}
-          ${monthExpenses.length>4?`<div style="font-size:11px;color:var(--text3);padding-top:6px">+${monthExpenses.length-4} more</div>`:''}`}
+          ${monthExp.length===0?`<div style="color:var(--text3);font-size:13px">No expenses this month</div>`:`
+          ${monthExp.slice(0,4).map(e=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px"><span style="color:var(--text2)">${e.category}</span><span class="mono neg">${fmt(e.amount)}</span></div>`).join('')}
+          ${monthExp.length>4?`<div style="font-size:11px;color:var(--text3);padding-top:6px">+${monthExp.length-4} more</div>`:''}`}
         </div>
       </div>
     </div>
   </div>
   ${aged.length>0?`<div class="tw">
     <div class="th"><div class="th-title" style="color:var(--red)">⚠ Aged Inventory (60+ Days)</div></div>
-    <table><thead><tr><th>Stock #</th><th>Vehicle</th><th>Days in Stock</th><th>Total Cost</th><th>Break-Even</th><th>Action</th></tr></thead><tbody>
+    <table><thead><tr><th>Stock #</th><th>Vehicle</th><th>Days</th><th>Total Cost</th><th>Break-Even</th><th>Action</th></tr></thead><tbody>
     ${aged.map(v=>`<tr><td class="mono">${v.stockNo||'—'}</td><td><b>${v.year} ${v.make} ${v.model}</b></td>
     <td><span class="badge bw">${daysSince(v.purchaseDate)} days</span></td>
     <td class="mono">${fmt(totalCost(v))}</td><td class="mono" style="color:var(--amber)">${fmt(totalCost(v)*1.1)}</td>
@@ -660,7 +610,7 @@ function statusBadge(v) {
   return '';
 }
 
-// ─── VEHICLES ───────────────────────────────────────────────────
+// ─── VEHICLES ────────────────────────────────────────────────────
 function vehiclesHTML() {
   let filtered = [...vehicles];
   if (vehicleFilterStatus!=='all') filtered = filtered.filter(v=>v.status===vehicleFilterStatus);
@@ -680,15 +630,20 @@ function vehiclesHTML() {
       <div class="search-bar"><input class="si" placeholder="🔍 Search stock#, VIN, make..." value="${vehicleSearch}" oninput="vehicleSearch=this.value;renderContent()"></div>
       <button class="btn btn-primary btn-sm" onclick="openVehicleModal()">＋ Add Vehicle</button>
     </div>
-    ${filtered.length===0?`<div class="empty"><div class="empty-icon">🚗</div><div class="empty-text">${vehicleSearch?'No vehicles match your search.':'No vehicles in this category yet.'}</div></div>`:`
-    <table><thead><tr><th>Stock #</th><th>Vehicle</th><th>VIN</th><th>Title</th><th>Purchase Date</th><th>Total Cost</th><th>Status</th><th>Sale Price</th><th>Profit/Loss</th><th>Days</th><th>Actions</th></tr></thead><tbody>
+    ${filtered.length===0?`<div class="empty"><div class="empty-icon">🚗</div><div class="empty-text">${vehicleSearch?'No vehicles match your search.':'No vehicles yet.'}</div></div>`:`
+    <table><thead><tr><th>Stock #</th><th>Vehicle</th><th>VIN</th><th>Title</th><th>Purchase Date</th><th>Total Cost</th><th>Inspection</th><th>Status</th><th>Sale Price</th><th>Profit/Loss</th><th>Days</th><th>Actions</th></tr></thead><tbody>
     ${filtered.map(v=>{const tc=totalCost(v),pr=profit(v),days=v.purchaseDate?daysSince(v.purchaseDate):0;return`<tr>
       <td class="mono" style="font-weight:600">${v.stockNo||'—'}</td>
-      <td><div style="font-weight:600">${v.year||''} ${v.make||''} ${v.model||''}</div><div style="font-size:11px;color:var(--text3)">${v.intNotes||''}</div></td>
+      <td><div style="font-weight:600">${v.year||''} ${v.make||''} ${v.model||''}</div>
+        ${v.notes?`<div style="font-size:11px;color:var(--amber);margin-top:2px">📝 Has notes</div>`:''}
+        <div style="font-size:11px;color:var(--text3)">${v.intNotes||''}</div>
+      </td>
       <td class="mono" style="font-size:11px">${v.vin||'—'}</td>
       <td><span class="badge ${v.title==='Clean'?'ba':v.title==='Salvage'?'bw':'bi'}">${v.title||'—'}</span></td>
       <td style="font-size:12px">${fmtDate(v.purchaseDate)}</td>
-      <td class="mono">${fmt(tc)}</td><td>${statusBadge(v)}</td>
+      <td class="mono">${fmt(tc)}</td>
+      <td class="mono">${parseFloat(v.inspection||0)>0?fmt(v.inspection):'<span class="muted">—</span>'}</td>
+      <td>${statusBadge(v)}</td>
       <td class="mono">${v.salePrice?fmt(v.salePrice):'—'}</td>
       <td class="${v.status==='Inventory'?'muted':pr>=0?'pos':'neg'}">${v.status==='Inventory'?'—':fmt(pr)}</td>
       <td>${v.status==='Inventory'?`<span class="${days>60?'aged':''}">${days}d</span>`:'—'}</td>
@@ -698,15 +653,13 @@ function vehiclesHTML() {
         <button class="btn btn-sm btn-ghost" onclick="printInvoice('${v.id}')" title="Print">🖨</button>
         <button class="btn btn-sm btn-red" onclick="delVehicle('${v.id}')">✕</button>
       </div></td>
-    </tr>`;}).join('')}
-    </tbody></table>`}
+    </tr>`;}).join('')}</tbody></table>`}
   </div>`;
 }
 
-// ─── VEHICLE DETAIL ─────────────────────────────────────────────
+// ─── VEHICLE DETAIL VIEW ─────────────────────────────────────────
 function viewVehicle(id) {
-  const v = vehicles.find(x=>x.id===id);
-  if (!v) return;
+  const v = vehicles.find(x=>x.id===id); if (!v) return;
   const tc = totalCost(v), pr = profit(v);
   document.getElementById('vmodal-title').innerHTML = `${v.year} ${v.make} ${v.model} &nbsp;${statusBadge(v)}`;
   document.getElementById('vmodal-body').innerHTML = `
@@ -715,7 +668,7 @@ function viewVehicle(id) {
       ${[['Stock #',v.stockNo],['VIN',v.vin],['Year',v.year],['Make',v.make],['Model',v.model],['Title',v.title]].map(([k,val])=>`<div class="vd-row"><span class="vd-k">${k}</span><span class="vd-v">${val||'—'}</span></div>`).join('')}
     </div>
     <div class="vd-sec"><div class="vd-title">Purchase Costs</div>
-      ${[['Purchase Price',fmt(v.purchasePrice)],['Tax Paid',fmt(v.taxPaid)],['Auction Fees',fmt(v.fees)],['Transport',fmt(v.transport)],['Repair Cost',fmt(v.repairCost)],['Parts',fmt(v.parts)],['Other',fmt(v.otherCost)]].map(([k,val])=>`<div class="vd-row"><span class="vd-k">${k}</span><span class="vd-v">${val}</span></div>`).join('')}
+      ${[['Purchase Price',fmt(v.purchasePrice)],['Tax Paid',fmt(v.taxPaid)],['Auction Fees',fmt(v.fees)],['Transport',fmt(v.transport)],['Inspection',fmt(v.inspection)],['Repair Cost',fmt(v.repairCost)],['Parts',fmt(v.parts)],['Other',fmt(v.otherCost)]].map(([k,val])=>`<div class="vd-row"><span class="vd-k">${k}</span><span class="vd-v">${val}</span></div>`).join('')}
       <div class="vd-row" style="border-top:2px solid var(--amber);margin-top:4px"><span class="vd-k" style="font-weight:700">TOTAL COST</span><span class="vd-v" style="color:var(--amber);font-size:13px">${fmt(tc)}</span></div>
     </div>
     <div class="vd-sec"><div class="vd-title">Sale & Status</div>
@@ -724,9 +677,10 @@ function viewVehicle(id) {
     </div>
     <div class="vd-sec"><div class="vd-title">Buyer Info</div>
       ${[['Name',v.buyerName],['Phone',v.buyerPhone],['Email',v.buyerEmail]].map(([k,val])=>`<div class="vd-row"><span class="vd-k">${k}</span><span class="vd-v">${val||'—'}</span></div>`).join('')}
-      <div style="margin-top:12px"><div class="vd-title">Internal Notes</div><div style="font-size:12px;color:var(--text2);padding:6px 0">${v.intNotes||'No notes'}</div></div>
+      <div style="margin-top:10px"><div class="vd-title">Location / Condition</div><div style="font-size:12px;color:var(--text2);padding:4px 0">${v.intNotes||'—'}</div></div>
     </div>
-  </div>`;
+  </div>
+  ${v.notes?`<div class="vd-sec" style="margin-top:0"><div class="vd-title">📝 Vehicle Notes</div><div class="notes-box">${v.notes}</div></div>`:''}`;
   document.getElementById('vmodal-footer').innerHTML = `
     <button class="btn btn-ghost" onclick="closeModal('vmodal')">Close</button>
     <button class="btn btn-ghost" onclick="printInvoice('${v.id}')">🖨 Print Invoice</button>
@@ -734,7 +688,7 @@ function viewVehicle(id) {
   openModal('vmodal');
 }
 
-// ─── MODAL HELPERS ───────────────────────────────────────────────
+// ─── MODAL HELPERS ────────────────────────────────────────────────
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
@@ -752,8 +706,11 @@ function restoreVehicleForm() {
 }
 
 function clearVehicleForm() {
-  ['stockNo','vin','year','make','model','purchaseDate','purchasePrice','taxPaid','fees','transport','repairCost','parts','otherCost','saleDate','salePrice','taxCollected','saleNotes','intNotes','buyerName','buyerPhone','buyerEmail'].forEach(f=>{
-    const el = document.getElementById('v_'+f); if (el) el.value='';
+  ['stockNo','vin','year','make','model','purchaseDate','purchasePrice','taxPaid','fees',
+   'transport','inspection','repairCost','parts','otherCost',
+   'saleDate','salePrice','taxCollected','saleNotes','intNotes','notes',
+   'buyerName','buyerPhone','buyerEmail'].forEach(f=>{
+    const el=document.getElementById('v_'+f); if(el) el.value='';
   });
   ['v_title','v_status','v_country'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.value=['Clean','Inventory','UAE'][i];});
   ['calc_total','calc_breakeven'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='$0.00';});
@@ -768,10 +725,12 @@ function openVehicleModal(id=null) {
     <button class="btn btn-ghost" onclick="closeModal('vmodal')">Cancel</button>
     <button class="btn btn-primary" id="save-vehicle-btn" onclick="saveVehicle()">💾 Save Vehicle</button>`;
   if (id) {
-    const v = vehicles.find(x=>x.id===id);
-    if (!v) return;
+    const v = vehicles.find(x=>x.id===id); if (!v) return;
     document.getElementById('vmodal-title').textContent = `Edit — ${v.year} ${v.make} ${v.model}`;
-    ['stockNo','vin','year','make','model','title','purchaseDate','purchasePrice','taxPaid','fees','transport','repairCost','parts','otherCost','saleDate','salePrice','taxCollected','saleNotes','intNotes','buyerName','buyerPhone','buyerEmail'].forEach(f=>{
+    ['stockNo','vin','year','make','model','title','purchaseDate','purchasePrice','taxPaid','fees',
+     'transport','inspection','repairCost','parts','otherCost',
+     'saleDate','salePrice','taxCollected','saleNotes','intNotes','notes',
+     'buyerName','buyerPhone','buyerEmail'].forEach(f=>{
       const el=document.getElementById('v_'+f); if(el) el.value=v[f]||'';
     });
     document.getElementById('v_status').value = v.status||'Inventory';
@@ -793,7 +752,7 @@ function toggleSaleFields() {
 }
 
 function calcTotal() {
-  const total = ['purchasePrice','taxPaid','fees','transport','repairCost','parts','otherCost']
+  const total = ['purchasePrice','taxPaid','fees','transport','inspection','repairCost','parts','otherCost']
     .reduce((s,f)=>s+parseFloat(document.getElementById('v_'+f)?.value||0),0);
   const ct=document.getElementById('calc_total'); if(ct) ct.textContent=fmt(total);
   const cb=document.getElementById('calc_breakeven'); if(cb) cb.textContent=fmt(total*1.1);
@@ -801,25 +760,25 @@ function calcTotal() {
 }
 
 function calcProfit() {
-  const tc = ['purchasePrice','taxPaid','fees','transport','repairCost','parts','otherCost']
+  const tc = ['purchasePrice','taxPaid','fees','transport','inspection','repairCost','parts','otherCost']
     .reduce((s,f)=>s+parseFloat(document.getElementById('v_'+f)?.value||0),0);
   const sp = parseFloat(document.getElementById('v_salePrice')?.value||0);
   const el = document.getElementById('calc_profit');
   if (!el) return;
   if (!sp) { el.textContent='—'; el.className='calc-val'; return; }
   const pr = sp-tc;
-  el.textContent = fmt(pr);
-  el.className = 'calc-val '+(pr>=0?'cv-green':'cv-red');
+  el.textContent=fmt(pr);
+  el.className='calc-val '+(pr>=0?'cv-green':'cv-red');
 }
 
 async function saveVehicle() {
-  const stockNo = document.getElementById('v_stockNo').value.trim();
-  const make = document.getElementById('v_make').value.trim();
-  const model = document.getElementById('v_model').value.trim();
+  const stockNo=document.getElementById('v_stockNo').value.trim();
+  const make=document.getElementById('v_make').value.trim();
+  const model=document.getElementById('v_model').value.trim();
   if (!stockNo||!make||!model) { toast('Stock #, Make and Model are required.','err'); return; }
 
-  const btn = document.getElementById('save-vehicle-btn');
-  btn.disabled = true; btn.textContent = '⏳ Saving...';
+  const btn=document.getElementById('save-vehicle-btn');
+  btn.disabled=true; btn.textContent='⏳ Saving...';
 
   const getV = f => document.getElementById('v_'+f)?.value||'';
   const status = getV('status');
@@ -831,11 +790,13 @@ async function saveVehicle() {
     vin:getV('vin'), year:getV('year'), title:getV('title'),
     purchaseDate:getV('purchaseDate'), purchasePrice:getV('purchasePrice'),
     taxPaid:getV('taxPaid'), fees:getV('fees'), transport:getV('transport'),
+    inspection:getV('inspection'),   // ← NEW
     repairCost:getV('repairCost'), parts:getV('parts'), otherCost:getV('otherCost'),
     status, exportCountry:status==='Exported'?getV('country'):'',
     saleDate:getV('saleDate'), salePrice:getV('salePrice'),
     taxCollected:getV('taxCollected'), saleNotes:getV('saleNotes'),
     intNotes:getV('intNotes'),
+    notes:getV('notes'),             // ← NEW
     buyerName:getV('buyerName'), buyerPhone:getV('buyerPhone'), buyerEmail:getV('buyerEmail'),
     createdAt: isNew ? Date.now() : (vehicles.find(x=>x.id===editingVehicleId)?.createdAt||Date.now())
   };
@@ -855,32 +816,32 @@ async function saveVehicle() {
 }
 
 async function delVehicle(id) {
-  const v = vehicles.find(x=>x.id===id);
+  const v=vehicles.find(x=>x.id===id);
   confirmAction(`Delete ${v?.year} ${v?.make} ${v?.model} (Stock #${v?.stockNo})? This cannot be undone.`, async()=>{
     try {
       await deleteVehicleFromDB(id);
-      vehicles = vehicles.filter(x=>x.id!==id);
+      vehicles=vehicles.filter(x=>x.id!==id);
       toast('Vehicle deleted');
       renderContent();
-    } catch(err) { toast('Error deleting: '+err.message,'err'); }
+    } catch(err) { toast('Error: '+err.message,'err'); }
   });
 }
 
-// ─── EXPENSES ───────────────────────────────────────────────────
+// ─── EXPENSES ────────────────────────────────────────────────────
 function expensesHTML() {
-  const sorted = [...expenses].sort((a,b)=>((b.date||'')>(a.date||''))?1:-1).reverse();
-  const total = sorted.reduce((s,e)=>s+parseFloat(e.amount||0),0);
-  const byCat = {};
+  const sorted=[...expenses].sort((a,b)=>((b.date||'')>(a.date||''))?1:-1).reverse();
+  const total=sorted.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+  const byCat={};
   sorted.forEach(e=>{byCat[e.category]=(byCat[e.category]||0)+parseFloat(e.amount||0);});
-  const top = Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  const top=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
   return `
   <div class="two-col" style="margin-bottom:20px">
-    <div class="kpi b" style="margin-bottom:0"><div class="kpi-lbl">Total Expenses (All Time)</div><div class="kpi-val">${fmt(total)}</div><div class="kpi-sub">${expenses.length} entries</div></div>
+    <div class="kpi b" style="margin-bottom:0"><div class="kpi-lbl">Total Expenses</div><div class="kpi-val">${fmt(total)}</div><div class="kpi-sub">${expenses.length} entries</div></div>
     <div class="kpi r" style="margin-bottom:0"><div class="kpi-lbl">Top Category</div><div class="kpi-val" style="font-size:18px">${top?.[0]||'—'}</div><div class="kpi-sub">${fmt(top?.[1]||0)}</div></div>
   </div>
   <div class="tw">
     <div class="th"><div class="th-title">All Expenses</div><button class="btn btn-primary btn-sm" onclick="openExpenseModal()">＋ Add Expense</button></div>
-    ${sorted.length===0?`<div class="empty"><div class="empty-icon">🧾</div><div class="empty-text">No expenses recorded yet.</div></div>`:`
+    ${sorted.length===0?`<div class="empty"><div class="empty-icon">🧾</div><div class="empty-text">No expenses yet.</div></div>`:`
     <table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Notes</th><th>Actions</th></tr></thead><tbody>
     ${sorted.map(e=>`<tr>
       <td style="font-size:12px">${fmtDate(e.date)}</td>
@@ -891,20 +852,18 @@ function expensesHTML() {
         <button class="btn btn-sm btn-blue" onclick="openExpenseModal('${e.id}')">Edit</button>
         <button class="btn btn-sm btn-red" onclick="delExpense('${e.id}')">✕</button>
       </div></td>
-    </tr>`).join('')}
-    </tbody></table>`}
+    </tr>`).join('')}</tbody></table>`}
   </div>`;
 }
 
 function openExpenseModal(id=null) {
-  editingExpenseId = id;
-  document.getElementById('emodal-title').textContent = id?'Edit Expense':'Add Expense';
+  editingExpenseId=id;
+  document.getElementById('emodal-title').textContent=id?'Edit Expense':'Add Expense';
   if (id) {
-    const e = expenses.find(x=>x.id===id);
-    if (!e) return;
+    const e=expenses.find(x=>x.id===id); if(!e) return;
     document.getElementById('e_date').value=e.date||'';
     document.getElementById('e_amount').value=e.amount||'';
-    document.getElementById('e_category').value=e.category||'Miscellaneous';
+    document.getElementById('e_category').value=e.category||'';
     document.getElementById('e_desc').value=e.desc||'';
     document.getElementById('e_notes').value=e.notes||'';
   } else {
@@ -920,13 +879,12 @@ async function saveExpense() {
   const amount=document.getElementById('e_amount').value;
   const desc=document.getElementById('e_desc').value.trim();
   if (!date||!amount||!desc) { toast('Date, amount and description are required.','err'); return; }
-  const isNew = !editingExpenseId;
-  const e = {
-    id: editingExpenseId||uid(),
-    date, amount, desc,
+  const isNew=!editingExpenseId;
+  const e={
+    id:editingExpenseId||uid(), date, amount, desc,
     category:document.getElementById('e_category').value,
     notes:document.getElementById('e_notes').value,
-    createdAt: isNew ? Date.now() : (expenses.find(x=>x.id===editingExpenseId)?.createdAt||Date.now())
+    createdAt:isNew?Date.now():(expenses.find(x=>x.id===editingExpenseId)?.createdAt||Date.now())
   };
   try {
     await saveExpenseToDB(e, isNew);
@@ -935,57 +893,57 @@ async function saveExpense() {
     closeModal('emodal');
     toast(isNew?'Expense saved ✓':'Expense updated ✓');
     renderContent();
-  } catch(err) { toast('Error saving: '+err.message,'err'); }
+  } catch(err) { toast('Error: '+err.message,'err'); }
 }
 
 async function delExpense(id) {
-  confirmAction('Delete this expense? This cannot be undone.', async()=>{
+  confirmAction('Delete this expense? Cannot be undone.', async()=>{
     try {
       await deleteExpenseFromDB(id);
-      expenses = expenses.filter(x=>x.id!==id);
+      expenses=expenses.filter(x=>x.id!==id);
       toast('Expense deleted');
       renderContent();
     } catch(err) { toast('Error: '+err.message,'err'); }
   });
 }
 
-// ─── REPORTS ────────────────────────────────────────────────────
+// ─── REPORTS ─────────────────────────────────────────────────────
 function reportsHTML() {
   const m=reportMonth, y=reportYear;
-  const monthName = new Date(y,m,1).toLocaleString('default',{month:'long',year:'numeric'});
-  const soldV = vehicles.filter(v=>{if(!v.saleDate)return false;const d=new Date(v.saleDate+'T00:00:00');return d.getMonth()===m&&d.getFullYear()===y;});
-  const boughtV = vehicles.filter(v=>{if(!v.purchaseDate)return false;const d=new Date(v.purchaseDate+'T00:00:00');return d.getMonth()===m&&d.getFullYear()===y;});
-  const monthExp = expenses.filter(e=>{if(!e.date)return false;const d=new Date(e.date+'T00:00:00');return d.getMonth()===m&&d.getFullYear()===y;});
-  const totalRevenue=soldV.reduce((s,v)=>s+parseFloat(v.salePrice||0),0);
-  const totalCOGS=soldV.reduce((s,v)=>s+totalCost(v),0);
-  const grossProfit=totalRevenue-totalCOGS;
-  const totalOpEx=monthExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
-  const netProfit=grossProfit-totalOpEx;
+  const mn=new Date(y,m,1).toLocaleString('default',{month:'long',year:'numeric'});
+  const soldV=vehicles.filter(v=>{if(!v.saleDate)return false;const d=new Date(v.saleDate+'T00:00:00');return d.getMonth()===m&&d.getFullYear()===y;});
+  const boughtV=vehicles.filter(v=>{if(!v.purchaseDate)return false;const d=new Date(v.purchaseDate+'T00:00:00');return d.getMonth()===m&&d.getFullYear()===y;});
+  const mExp=expenses.filter(e=>{if(!e.date)return false;const d=new Date(e.date+'T00:00:00');return d.getMonth()===m&&d.getFullYear()===y;});
+  const rev=soldV.reduce((s,v)=>s+parseFloat(v.salePrice||0),0);
+  const cogs=soldV.reduce((s,v)=>s+totalCost(v),0);
+  const gross=rev-cogs;
+  const opex=mExp.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+  const net=gross-opex;
   const expByCat={};
-  monthExp.forEach(e=>{expByCat[e.category]=(expByCat[e.category]||0)+parseFloat(e.amount||0);});
+  mExp.forEach(e=>{expByCat[e.category]=(expByCat[e.category]||0)+parseFloat(e.amount||0);});
   const allSold=vehicles.filter(v=>v.status==='Sold'||v.status==='Exported');
-  const allRevenue=allSold.reduce((s,v)=>s+parseFloat(v.salePrice||0),0);
-  const allCOGS=allSold.reduce((s,v)=>s+totalCost(v),0);
-  const allOpEx=expenses.reduce((s,e)=>s+parseFloat(e.amount||0),0);
-  const allNetProfit=allRevenue-allCOGS-allOpEx;
+  const allRev=allSold.reduce((s,v)=>s+parseFloat(v.salePrice||0),0);
+  const allCogs=allSold.reduce((s,v)=>s+totalCost(v),0);
+  const allOpex=expenses.reduce((s,e)=>s+parseFloat(e.amount||0),0);
+  const allNet=allRev-allCogs-allOpex;
   return `
   <div class="kpi-grid">
-    <div class="kpi g"><div class="kpi-lbl">Revenue (${monthName})</div><div class="kpi-val">${fmt(totalRevenue)}</div><div class="kpi-sub">${soldV.length} vehicles sold</div></div>
-    <div class="kpi a"><div class="kpi-lbl">Gross Profit</div><div class="kpi-val" style="color:${grossProfit>=0?'var(--green)':'var(--red)'}">${fmt(grossProfit)}</div><div class="kpi-sub">After vehicle costs</div></div>
-    <div class="kpi r"><div class="kpi-lbl">Operating Expenses</div><div class="kpi-val">${fmt(totalOpEx)}</div><div class="kpi-sub">${monthExp.length} entries</div></div>
-    <div class="kpi ${netProfit>=0?'g':'r'}"><div class="kpi-lbl">Net Profit</div><div class="kpi-val" style="color:${netProfit>=0?'var(--green)':'var(--red)'}">${fmt(netProfit)}</div><div class="kpi-sub">Bottom line</div></div>
+    <div class="kpi g"><div class="kpi-lbl">Revenue (${mn})</div><div class="kpi-val">${fmt(rev)}</div><div class="kpi-sub">${soldV.length} vehicles</div></div>
+    <div class="kpi a"><div class="kpi-lbl">Gross Profit</div><div class="kpi-val" style="color:${gross>=0?'var(--green)':'var(--red)'}">${fmt(gross)}</div><div class="kpi-sub">After vehicle costs</div></div>
+    <div class="kpi r"><div class="kpi-lbl">Operating Expenses</div><div class="kpi-val">${fmt(opex)}</div><div class="kpi-sub">${mExp.length} entries</div></div>
+    <div class="kpi ${net>=0?'g':'r'}"><div class="kpi-lbl">Net Profit</div><div class="kpi-val" style="color:${net>=0?'var(--green)':'var(--red)'}">${fmt(net)}</div><div class="kpi-sub">Bottom line</div></div>
   </div>
   <div class="two-col">
     <div>
       <div class="rpt-block">
-        <div class="rpt-head"><span class="rpt-head-title">Income Statement — ${monthName}</span></div>
-        <div class="rpt-row"><span class="rpt-lbl">Vehicle Sales Revenue</span><span class="rpt-val pos">${fmt(totalRevenue)}</span></div>
-        <div class="rpt-row"><span class="rpt-lbl">Cost of Goods Sold (COGS)</span><span class="rpt-val neg">(${fmt(totalCOGS)})</span></div>
-        <div class="rpt-row sub"><span>Gross Profit</span><span style="color:${grossProfit>=0?'var(--green)':'var(--red)'}">${fmt(grossProfit)}</span></div>
+        <div class="rpt-head"><span class="rpt-head-title">Income Statement — ${mn}</span></div>
+        <div class="rpt-row"><span class="rpt-lbl">Vehicle Sales Revenue</span><span class="rpt-val pos">${fmt(rev)}</span></div>
+        <div class="rpt-row"><span class="rpt-lbl">Cost of Goods Sold (COGS)</span><span class="rpt-val neg">(${fmt(cogs)})</span></div>
+        <div class="rpt-row sub"><span>Gross Profit</span><span style="color:${gross>=0?'var(--green)':'var(--red)'}">${fmt(gross)}</span></div>
         ${Object.entries(expByCat).map(([k,v])=>`<div class="rpt-row"><span class="rpt-lbl">— ${k}</span><span class="rpt-val neg">(${fmt(v)})</span></div>`).join('')}
-        ${Object.keys(expByCat).length===0?`<div class="rpt-row"><span class="rpt-lbl muted">No operating expenses this month</span><span>—</span></div>`:''}
-        <div class="rpt-row sub"><span>Total Operating Expenses</span><span class="neg">(${fmt(totalOpEx)})</span></div>
-        <div class="rpt-row grand"><span>NET PROFIT / LOSS</span><span style="color:${netProfit>=0?'var(--green)':'var(--red)'}">${fmt(netProfit)}</span></div>
+        ${!Object.keys(expByCat).length?`<div class="rpt-row"><span class="rpt-lbl muted">No operating expenses this month</span><span>—</span></div>`:''}
+        <div class="rpt-row sub"><span>Total Operating Expenses</span><span class="neg">(${fmt(opex)})</span></div>
+        <div class="rpt-row grand"><span>NET PROFIT / LOSS</span><span style="color:${net>=0?'var(--green)':'var(--red)'}">${fmt(net)}</span></div>
       </div>
       <div class="rpt-block">
         <div class="rpt-head"><span class="rpt-head-title">Vehicles Sold This Month</span></div>
@@ -995,12 +953,12 @@ function reportsHTML() {
     <div>
       <div class="rpt-block">
         <div class="rpt-head"><span class="rpt-head-title">All-Time Summary</span></div>
-        <div class="rpt-row"><span class="rpt-lbl">Total Revenue</span><span class="rpt-val pos">${fmt(allRevenue)}</span></div>
-        <div class="rpt-row"><span class="rpt-lbl">Total COGS</span><span class="rpt-val neg">(${fmt(allCOGS)})</span></div>
-        <div class="rpt-row"><span class="rpt-lbl">Total Operating Expenses</span><span class="rpt-val neg">(${fmt(allOpEx)})</span></div>
-        <div class="rpt-row grand"><span>ALL-TIME NET PROFIT</span><span style="color:${allNetProfit>=0?'var(--green)':'var(--red)'}">${fmt(allNetProfit)}</span></div>
+        <div class="rpt-row"><span class="rpt-lbl">Total Revenue</span><span class="rpt-val pos">${fmt(allRev)}</span></div>
+        <div class="rpt-row"><span class="rpt-lbl">Total COGS</span><span class="rpt-val neg">(${fmt(allCogs)})</span></div>
+        <div class="rpt-row"><span class="rpt-lbl">Total Operating Expenses</span><span class="rpt-val neg">(${fmt(allOpex)})</span></div>
+        <div class="rpt-row grand"><span>ALL-TIME NET PROFIT</span><span style="color:${allNet>=0?'var(--green)':'var(--red)'}">${fmt(allNet)}</span></div>
         <div class="rpt-row"><span class="rpt-lbl">Vehicles Sold (Total)</span><span class="rpt-val">${allSold.length}</span></div>
-        <div class="rpt-row"><span class="rpt-lbl">Currently In Inventory</span><span class="rpt-val">${vehicles.filter(v=>v.status==='Inventory').length}</span></div>
+        <div class="rpt-row"><span class="rpt-lbl">In Inventory</span><span class="rpt-val">${vehicles.filter(v=>v.status==='Inventory').length}</span></div>
         <div class="rpt-row"><span class="rpt-lbl">Capital in Inventory</span><span class="rpt-val" style="color:var(--amber)">${fmt(vehicles.filter(v=>v.status==='Inventory').reduce((s,v)=>s+totalCost(v),0))}</span></div>
       </div>
       <div class="rpt-block">
@@ -1008,14 +966,14 @@ function reportsHTML() {
         ${boughtV.length===0?`<div style="padding:14px 18px;color:var(--text3);font-size:13px">No vehicles purchased this month</div>`:boughtV.map(v=>`<div class="rpt-row"><span class="rpt-lbl">${v.year} ${v.make} ${v.model} (#${v.stockNo})</span><span class="rpt-val" style="color:var(--amber)">${fmt(totalCost(v))}</span></div>`).join('')}
       </div>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost" style="flex:1" onclick="exportCSV()">⬇ Export Vehicles CSV</button>
-        <button class="btn btn-ghost" style="flex:1" onclick="exportExpensesCSV()">⬇ Export Expenses CSV</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="exportCSV()">⬇ Vehicles CSV</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="exportExpensesCSV()">⬇ Expenses CSV</button>
       </div>
     </div>
   </div>`;
 }
 
-// ─── BUYERS ─────────────────────────────────────────────────────
+// ─── BUYERS ──────────────────────────────────────────────────────
 function buyersHTML() {
   const buyers={};
   vehicles.filter(v=>v.buyerName).forEach(v=>{
@@ -1028,91 +986,98 @@ function buyersHTML() {
   <div class="kpi-grid" style="grid-template-columns:1fr 1fr 1fr">
     <div class="kpi b"><div class="kpi-lbl">Unique Buyers</div><div class="kpi-val">${list.length}</div></div>
     <div class="kpi g"><div class="kpi-lbl">Repeat Buyers</div><div class="kpi-val">${list.filter(b=>b.vehicles.length>1).length}</div></div>
-    <div class="kpi a"><div class="kpi-lbl">Avg. per Buyer</div><div class="kpi-val">${list.length>0?fmt(list.reduce((s,b)=>s+b.vehicles.reduce((s2,v)=>s2+parseFloat(v.salePrice||0),0),0)/list.length):'$0.00'}</div></div>
+    <div class="kpi a"><div class="kpi-lbl">Avg. Spent per Buyer</div><div class="kpi-val">${list.length>0?fmt(list.reduce((s,b)=>s+b.vehicles.reduce((s2,v)=>s2+parseFloat(v.salePrice||0),0),0)/list.length):'$0.00'}</div></div>
   </div>
   <div class="tw">
     <div class="th"><div class="th-title">Buyer Directory</div></div>
     ${list.length===0?`<div class="empty"><div class="empty-icon">👥</div><div class="empty-text">No buyers yet.</div></div>`:`
-    <table><thead><tr><th>Buyer Name</th><th>Phone</th><th>Email</th><th>Units</th><th>Total Spent</th><th>Last Purchase</th></tr></thead><tbody>
+    <table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Units</th><th>Total Spent</th><th>Last Purchase</th></tr></thead><tbody>
     ${list.map(b=>{const ts=b.vehicles.reduce((s,v)=>s+parseFloat(v.salePrice||0),0),ld=b.vehicles.map(v=>v.saleDate).filter(Boolean).sort().pop();return`<tr>
       <td><b>${b.name}</b></td><td>${b.phone||'—'}</td><td>${b.email||'—'}</td>
       <td><span class="badge bi">${b.vehicles.length} unit${b.vehicles.length!==1?'s':''}</span>${b.vehicles.length>1?' <span class="badge ba">Repeat</span>':''}</td>
       <td class="mono pos">${fmt(ts)}</td><td style="font-size:12px">${fmtDate(ld)}</td>
-    </tr>`;}).join('')}
-    </tbody></table>`}
+    </tr>`;}).join('')}</tbody></table>`}
   </div>`;
 }
 
-// ─── CSV EXPORT ──────────────────────────────────────────────────
+// ─── CSV EXPORT ───────────────────────────────────────────────────
 function exportCSV() {
-  const headers=['Stock #','VIN','Year','Make','Model','Title','Purchase Date','Purchase Price','Tax Paid','Fees','Transport','Repair Cost','Parts','Other Cost','Total Cost','Status','Export Country','Sale Date','Sale Price','Tax Collected','Profit/Loss','Buyer Name','Buyer Phone','Buyer Email','Notes'];
-  const rows=vehicles.map(v=>{const tc=totalCost(v),pr=profit(v);return[v.stockNo,v.vin,v.year,v.make,v.model,v.title,v.purchaseDate,v.purchasePrice,v.taxPaid,v.fees,v.transport,v.repairCost,v.parts,v.otherCost,tc.toFixed(2),v.status,v.exportCountry,v.saleDate,v.salePrice,v.taxCollected,(v.status==='Inventory'?'':pr.toFixed(2)),v.buyerName,v.buyerPhone,v.buyerEmail,v.saleNotes].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`)});
-  dlCSV([headers,...rows],'vehicles_export.csv');
-  toast('Vehicles CSV exported ✓');
+  const h=['Stock #','VIN','Year','Make','Model','Title','Purchase Date','Purchase Price','Tax Paid','Fees','Transport','Inspection','Repair Cost','Parts','Other Cost','Total Cost','Status','Export Country','Sale Date','Sale Price','Tax Collected','Profit/Loss','Buyer Name','Buyer Phone','Buyer Email','Sale Notes','Notes'];
+  const rows=vehicles.map(v=>{const tc=totalCost(v),pr=profit(v);return[v.stockNo,v.vin,v.year,v.make,v.model,v.title,v.purchaseDate,v.purchasePrice,v.taxPaid,v.fees,v.transport,v.inspection,v.repairCost,v.parts,v.otherCost,tc.toFixed(2),v.status,v.exportCountry,v.saleDate,v.salePrice,v.taxCollected,(v.status==='Inventory'?'':pr.toFixed(2)),v.buyerName,v.buyerPhone,v.buyerEmail,v.saleNotes,v.notes].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`);});
+  dlCSV([h,...rows],'vehicles_export.csv'); toast('Vehicles CSV exported ✓');
 }
 function exportExpensesCSV() {
-  const headers=['Date','Category','Description','Amount','Notes'];
+  const h=['Date','Category','Description','Amount','Notes'];
   const rows=expenses.map(e=>[e.date,e.category,e.desc,e.amount,e.notes].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`));
-  dlCSV([headers,...rows],'expenses_export.csv');
-  toast('Expenses CSV exported ✓');
+  dlCSV([h,...rows],'expenses_export.csv'); toast('Expenses CSV exported ✓');
 }
-function dlCSV(rows,filename) {
-  const csv=rows.map(r=>r.join(',')).join('\n');
+function dlCSV(rows,fn) {
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=filename; a.click();
+  a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}));
+  a.download=fn; a.click();
 }
 
-// ─── PRINT INVOICE ───────────────────────────────────────────────
+// ─── PRINT INVOICE ────────────────────────────────────────────────
 function printInvoice(id) {
   const v=vehicles.find(x=>x.id===id); if(!v) return;
-  const tc=totalCost(v),pr=profit(v);
-  const wrap=document.getElementById('invoice-wrap');
-  wrap.style.display='block';
-  wrap.innerHTML=`<div style="max-width:700px;margin:0 auto;padding:40px;font-family:Arial,sans-serif;color:#111">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:30px;border-bottom:3px solid #111;padding-bottom:20px">
-      <div><div style="font-size:28px;font-weight:900;letter-spacing:2px">AUTODESK PRO</div><div style="font-size:13px;color:#666;letter-spacing:1px">VEHICLE COST SHEET</div></div>
-      <div style="text-align:right;font-size:13px;color:#444"><div>Date: ${new Date().toLocaleDateString()}</div><div>Stock #: <b>${v.stockNo||'—'}</b></div><div>VIN: ${v.vin||'—'}</div></div>
-    </div>
-    <div style="font-size:22px;font-weight:700;margin-bottom:20px">${v.year} ${v.make} ${v.model} &nbsp;<span style="font-size:14px;background:#eee;padding:4px 10px;font-weight:500">${v.title} Title</span></div>
-    <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
-      <tr style="background:#f5f5f5"><th style="text-align:left;padding:8px 12px;font-size:12px;font-weight:700">PURCHASE COSTS</th><th style="text-align:right;padding:8px 12px">AMOUNT</th></tr>
-      ${[['Purchase Price',v.purchasePrice],['Tax on Purchase',v.taxPaid],['Auction Fees',v.fees],['Transport',v.transport],['Repair Cost',v.repairCost],['Parts',v.parts],['Other Cost',v.otherCost]].filter(([,a])=>parseFloat(a||0)>0).map(([l,a])=>`<tr><td style="padding:7px 12px;border-bottom:1px solid #eee">${l}</td><td style="text-align:right;padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace">${fmt(a)}</td></tr>`).join('')}
-      <tr style="background:#111;color:#fff"><td style="padding:10px 12px;font-weight:700">TOTAL ALL-IN COST</td><td style="text-align:right;padding:10px 12px;font-family:monospace;font-weight:700">${fmt(tc)}</td></tr>
-    </table>
-    ${v.status!=='Inventory'?`<table style="width:100%;border-collapse:collapse;margin-bottom:24px">
-      <tr style="background:#f5f5f5"><th style="text-align:left;padding:8px 12px;font-size:12px;font-weight:700">SALE INFORMATION</th><th style="text-align:right;padding:8px 12px">AMOUNT</th></tr>
-      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee">Sale Date</td><td style="text-align:right;padding:7px 12px;border-bottom:1px solid #eee">${fmtDate(v.saleDate)}</td></tr>
-      <tr><td style="padding:7px 12px;border-bottom:1px solid #eee">Sale Price</td><td style="text-align:right;padding:7px 12px;border-bottom:1px solid #eee;font-family:monospace">${fmt(v.salePrice)}</td></tr>
-      <tr style="background:${pr>=0?'#d4edda':'#f8d7da'}"><td style="padding:10px 12px;font-weight:700">PROFIT / LOSS</td><td style="text-align:right;padding:10px 12px;font-family:monospace;font-weight:700;color:${pr>=0?'#155724':'#721c24'}">${fmt(pr)}</td></tr>
-    </table>`:''}
-    ${v.buyerName?`<div style="background:#f9f9f9;padding:14px;margin-bottom:20px"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:#666;margin-bottom:8px">BUYER INFORMATION</div><div>${v.buyerName}${v.buyerPhone?' · '+v.buyerPhone:''}${v.buyerEmail?' · '+v.buyerEmail:''}</div></div>`:''}
-    <div style="margin-top:40px;border-top:1px solid #eee;padding-top:12px;font-size:11px;color:#aaa;text-align:center">Generated by AutoDesk Pro — ${new Date().toLocaleDateString()}</div>
-  </div>`;
-  closeModal('vmodal');
-  setTimeout(()=>{window.print();wrap.style.display='none';},150);
+  const tc=totalCost(v), pr=profit(v);
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Invoice — ${v.year} ${v.make} ${v.model}</title>
+  <style>body{font-family:Arial,sans-serif;color:#111;padding:40px;max-width:720px;margin:0 auto}
+  .hdr{display:flex;justify-content:space-between;border-bottom:3px solid #111;padding-bottom:20px;margin-bottom:28px}
+  .brand{font-size:26px;font-weight:900;letter-spacing:2px}.brand-sub{font-size:12px;color:#666;letter-spacing:1px;margin-top:4px}
+  .meta{text-align:right;font-size:13px;color:#444;line-height:1.7}
+  .vtitle{font-size:22px;font-weight:700;margin-bottom:22px}
+  .tag{font-size:13px;background:#eee;padding:4px 10px;font-weight:500;margin-left:8px}
+  table{width:100%;border-collapse:collapse;margin-bottom:24px}
+  th{text-align:left;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:1px;background:#f5f5f5}
+  th.r{text-align:right}td{padding:8px 12px;border-bottom:1px solid #eee;font-size:13px}td.r{text-align:right;font-family:monospace}
+  .tr-total td{background:#111;color:#fff;font-weight:700;padding:11px 12px}
+  .tr-profit td{font-weight:700;padding:11px 12px;background:${pr>=0?'#d4edda':'#f8d7da'};color:${pr>=0?'#155724':'#721c24'}}
+  .buyer{background:#f9f9f9;padding:14px;margin-bottom:16px;font-size:13px}
+  .buyer-lbl{font-size:10px;font-weight:700;letter-spacing:1px;color:#666;margin-bottom:6px;text-transform:uppercase}
+  .notes-sec{background:#fffbea;border-left:3px solid #f59e0b;padding:12px 14px;margin-bottom:16px;font-size:13px;color:#555}
+  .notes-lbl{font-size:10px;font-weight:700;letter-spacing:1px;color:#b45309;margin-bottom:5px;text-transform:uppercase}
+  .footer{margin-top:40px;border-top:1px solid #eee;padding-top:12px;font-size:11px;color:#aaa;text-align:center}
+  @media print{body{padding:20px}}</style></head><body>
+  <div class="hdr">
+    <div><div class="brand">AUTODESK PRO</div><div class="brand-sub">VEHICLE COST SHEET</div></div>
+    <div class="meta"><div>Date: ${new Date().toLocaleDateString()}</div><div>Stock #: <b>${v.stockNo||'—'}</b></div><div>VIN: ${v.vin||'—'}</div></div>
+  </div>
+  <div class="vtitle">${v.year} ${v.make} ${v.model}<span class="tag">${v.title} Title</span></div>
+  <table>
+    <tr><th>PURCHASE COSTS</th><th class="r">AMOUNT</th></tr>
+    ${[['Purchase Price',v.purchasePrice],['Tax on Purchase',v.taxPaid],['Auction Fees',v.fees],['Transport',v.transport],['Inspection',v.inspection],['Repair Cost',v.repairCost],['Parts',v.parts],['Other Cost',v.otherCost]].filter(([,a])=>parseFloat(a||0)>0).map(([l,a])=>`<tr><td>${l}</td><td class="r">${fmt(a)}</td></tr>`).join('')}
+    <tr class="tr-total"><td>TOTAL ALL-IN COST</td><td class="r">${fmt(tc)}</td></tr>
+  </table>
+  ${v.status!=='Inventory'?`<table>
+    <tr><th>SALE INFORMATION</th><th class="r">AMOUNT</th></tr>
+    <tr><td>Sale Date</td><td class="r">${fmtDate(v.saleDate)}</td></tr>
+    <tr><td>Sale Price</td><td class="r">${fmt(v.salePrice)}</td></tr>
+    ${v.taxCollected?`<tr><td>Tax Collected</td><td class="r">${fmt(v.taxCollected)}</td></tr>`:''}
+    <tr class="tr-profit"><td>PROFIT / LOSS</td><td class="r">${fmt(pr)}</td></tr>
+  </table>`:''}
+  ${v.buyerName?`<div class="buyer"><div class="buyer-lbl">Buyer Information</div>${v.buyerName}${v.buyerPhone?' &nbsp;·&nbsp; '+v.buyerPhone:''}${v.buyerEmail?' &nbsp;·&nbsp; '+v.buyerEmail:''}</div>`:''}
+  ${v.notes?`<div class="notes-sec"><div class="notes-lbl">📝 Vehicle Notes</div>${v.notes}</div>`:''}
+  ${v.saleNotes?`<div style="font-size:12px;color:#666;margin-bottom:16px">Sale Notes: ${v.saleNotes}</div>`:''}
+  <div class="footer">Generated by AutoDesk Pro &mdash; ${new Date().toLocaleDateString()}</div>
+  </body></html>`;
+  const win=window.open('','_blank','width=820,height=700');
+  win.document.write(html); win.document.close(); win.focus();
+  setTimeout(()=>win.print(), 300);
 }
 
-// ─── INIT ────────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────────────────────────────
 async function init() {
   const ok = await loadAll();
-  document.getElementById('loading-screen').style.display = 'none';
-  document.getElementById('sidebar').style.display = '';
-  document.getElementById('main').style.display = '';
-
-  const dot = document.getElementById('db-dot');
-  const txt = document.getElementById('db-status-txt');
-  if (ok) {
-    dot.className = 'db-dot';
-    txt.textContent = 'Supabase Connected';
-  } else {
-    dot.className = 'db-dot err';
-    txt.textContent = 'DB Connection Error';
-    toast('Could not connect to database. Check your Supabase settings.','err');
-  }
+  document.getElementById('loading-screen').style.display='none';
+  document.getElementById('sidebar').style.display='';
+  document.getElementById('main').style.display='';
+  const dot=document.getElementById('db-dot'), txt=document.getElementById('db-status-txt');
+  if (ok) { dot.className='db-dot'; txt.textContent='Supabase Connected'; }
+  else { dot.className='db-dot err'; txt.textContent='DB Connection Error'; toast('Could not connect to database.','err'); }
   navigate('dashboard');
 }
-
 init();
 </script>
 </body>
